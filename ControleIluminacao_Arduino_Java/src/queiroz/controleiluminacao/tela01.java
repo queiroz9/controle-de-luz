@@ -5,17 +5,29 @@
  */
 package queiroz.controleiluminacao;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Leandro Queiroz Ferreira <queiroizinn@gmail.com>
  */
 public class tela01 extends javax.swing.JFrame {
 
+    private final String fileConfig;
+
     /**
      * Creates new form tela01
      */
     public tela01() {
+        this.fileConfig = "config.properties";
         initComponents();
+        initConfig();
     }
 
     /**
@@ -125,4 +137,38 @@ public class tela01 extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     // End of variables declaration//GEN-END:variables
+
+    private void initConfig() {
+        try {
+            FileInputStream fis = new FileInputStream(fileConfig);
+            Properties props = new Properties();
+            props.load(fis);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(tela01.class.getName()).log(Level.SEVERE, null, ex);
+
+            criarArquivo(fileConfig);
+
+        } catch (IOException ex) {
+            Logger.getLogger(tela01.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void criarArquivo(String nomeArquivo) {
+        File file = new File(nomeArquivo);
+
+        if (file.exists()) {
+            
+            System.out.println("O arquivo já existe");
+            
+        }else{
+            try {
+                if(file.createNewFile()){
+                    
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(tela01.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }
